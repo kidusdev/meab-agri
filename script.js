@@ -2,13 +2,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize all functionality
   initNavigation();
-  initScrollEffects();
-  initAnimations();
   initContactForm();
   initStatsCounter();
   initSmoothScrolling();
   initMobileMenu();
-  initParallaxEffects();
   initFormValidation();
 });
 
@@ -76,73 +73,6 @@ function initNavigation() {
       if (item.getAttribute("href") === `#${current}`) {
         item.classList.add("active");
       }
-    });
-  });
-}
-
-// Scroll effects and animations
-function initScrollEffects() {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("animate-in");
-      }
-    });
-  }, observerOptions);
-
-  // Observe elements for animation
-  const animateElements = document.querySelectorAll(
-    ".service-card, .product-card, .testimonial-card, .stat-item, .about-content, .contact-content"
-  );
-  animateElements.forEach((el) => {
-    observer.observe(el);
-  });
-}
-
-// Enhanced animations
-function initAnimations() {
-  // Parallax effect for hero section
-  const hero = document.querySelector(".hero");
-  if (hero) {
-    window.addEventListener("scroll", () => {
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * -0.5;
-      hero.style.transform = `translateY(${rate}px)`;
-    });
-  }
-
-  // Staggered animation for stats
-  const statItems = document.querySelectorAll(".stat-item");
-  statItems.forEach((item, index) => {
-    item.style.animationDelay = `${index * 0.2}s`;
-  });
-
-  // Hover effects for service cards
-  const serviceCards = document.querySelectorAll(".service-card");
-  serviceCards.forEach((card) => {
-    card.addEventListener("mouseenter", function () {
-      this.style.transform = "translateY(-12px) scale(1.02)";
-    });
-
-    card.addEventListener("mouseleave", function () {
-      this.style.transform = "translateY(0) scale(1)";
-    });
-  });
-
-  // Product card hover effects
-  const productCards = document.querySelectorAll(".product-card");
-  productCards.forEach((card) => {
-    card.addEventListener("mouseenter", function () {
-      this.style.transform = "translateY(-12px)";
-    });
-
-    card.addEventListener("mouseleave", function () {
-      this.style.transform = "translateY(0)";
     });
   });
 }
@@ -411,20 +341,6 @@ function initMobileMenu() {
   });
 }
 
-// Parallax effects
-function initParallaxEffects() {
-  const parallaxElements = document.querySelectorAll(".service-card, .product-card, .testimonial-card");
-
-  window.addEventListener("scroll", () => {
-    const scrolled = window.pageYOffset;
-
-    parallaxElements.forEach((element, index) => {
-      const rate = scrolled * 0.1 + index * 0.05;
-      element.style.transform = `translateY(${rate}px)`;
-    });
-  });
-}
-
 // Enhanced form validation
 function initFormValidation() {
   const form = document.getElementById("contactForm");
@@ -456,58 +372,6 @@ function initFormValidation() {
     `;
   document.head.appendChild(style);
 }
-
-// Utility functions
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-// Performance optimization
-const optimizedScrollHandler = debounce(() => {
-  // Handle scroll events efficiently
-}, 16);
-
-window.addEventListener("scroll", optimizedScrollHandler);
-
-// Add loading animation for images
-function initImageLoading() {
-  const images = document.querySelectorAll("img");
-
-  images.forEach((img) => {
-    if (img.complete) {
-      img.classList.add("loaded");
-    } else {
-      img.addEventListener("load", function () {
-        this.classList.add("loaded");
-      });
-    }
-  });
-}
-
-// Initialize image loading
-initImageLoading();
-
-// Add CSS for image loading animation
-const imageLoadingStyle = document.createElement("style");
-imageLoadingStyle.textContent = `
-    img {
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-    
-    img.loaded {
-        opacity: 1;
-    }
-`;
-document.head.appendChild(imageLoadingStyle);
 
 // Enhanced accessibility
 function initAccessibility() {
@@ -584,40 +448,12 @@ keyboardNavStyle.textContent = `
 `;
 document.head.appendChild(keyboardNavStyle);
 
-// Performance monitoring
-function initPerformanceMonitoring() {
-  // Monitor page load performance
-  window.addEventListener("load", () => {
-    if ("performance" in window) {
-      const perfData = performance.getEntriesByType("navigation")[0];
-      console.log("Page load time:", perfData.loadEventEnd - perfData.loadEventStart, "ms");
-    }
-  });
-
-  // Monitor scroll performance
-  let scrollCount = 0;
-  const scrollHandler = debounce(() => {
-    scrollCount++;
-    if (scrollCount % 100 === 0) {
-      console.log("Scroll events processed:", scrollCount);
-    }
-  }, 100);
-
-  window.addEventListener("scroll", scrollHandler);
-}
-
-// Initialize performance monitoring
-initPerformanceMonitoring();
-
 // Export functions for potential external use
 window.MEABWebsite = {
   initNavigation,
-  initScrollEffects,
-  initAnimations,
   initContactForm,
   initStatsCounter,
   initSmoothScrolling,
   initMobileMenu,
-  initParallaxEffects,
   initFormValidation,
 };
